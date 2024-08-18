@@ -17,3 +17,51 @@
     margin-top: 10px;
     width: 16%;
 }
+
+.todoTable{
+    /* add boarder to each column */
+    border-collapse: collapse;
+
+    /* add border to the table */
+    border: 1px solid black;
+
+    /* add padding to the table */
+    padding-left: 50;
+
+
+
+    /* add margin to the table */
+    margin-top: 10px;
+
+    margin-left: 40px;
+    margin-right: 30px;
+
+    /* add width to the table */
+    width: 90%;
+
+    /* add background color to the table */
+    background-color: #f2f2f2;
+
+    /* add text align to the table */
+    text-align: center;
+
+    /* add border to the table */
+    border: 1px solid black;
+
+}
+
+.ListAllTodos .heading{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 40px;
+}
+
+.footer .text{
+    bottom: 0;
+    position: absolute;
+    width: 90%;
+    text-align: center;
+    height: 40px;
+}
