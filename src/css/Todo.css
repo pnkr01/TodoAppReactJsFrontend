@@ -1,0 +1,19 @@
+.loginContainer .username {
+    margin-bottom: 10px; 
+    margin-top: 10px;
+}
+
+.loginContainer .username .usernamelabel{
+    margin-bottom: 10px; 
+    margin-top: 10px;
+    font-size: 100px;
+}
+
+.LogInComponent{
+    margin-top: 50px;
+}
+
+.loginbutton{
+    margin-top: 10px;
+    width: 16%;
+}
