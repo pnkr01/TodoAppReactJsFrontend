@@ -8,24 +8,38 @@ import LogInComponent from './LogInComponents';
 import WelcomeComponent from './WelcomeComponents';
 import ListAllTodosComponent from './ListAllTodoComponents';
 import ErrorComponent from './ErrorComponents';
-import AuthProvider from '../security/AuthContext';
-import { AuthContext } from '../security/AuthContext';
+import AuthProvider, { useAuth } from '../security/AuthContext';
+
+
+function AuthenticatedRoute({ element }) {
+    const authContext = useAuth();
+    return (
+        authContext.isAuthenticated ? element : <LogInComponent />
+    );
+}
 
 
 export default function TodoApp() {
     return (
-        <div className="" TodoApp>
+        <div className="TodoApp">
             <AuthProvider>
             <BrowserRouter>
-                
             <HeaderComponent />
                 <Routes>
                     <Route path="/" element={<LogInComponent />} />
                     <Route path="/login" element={<LogInComponent />} />
-                    <Route path="/welcome/:username" element={<WelcomeComponent />} />
-                    <Route path="/todos" element={<ListAllTodosComponent />} />
-                    <Route path="/logout" element={<LogOutComponent />} />
-                    <Route path="*" element={<ErrorComponent />} />
+                        <Route path="/welcome/:username" element={
+                            <AuthenticatedRoute element={<WelcomeComponent />} />
+                    } />
+                        <Route path="/todos" element={
+                            <AuthenticatedRoute element={<ListAllTodosComponent />} />
+                    } />
+                        <Route path="/logout" element={
+                            <AuthenticatedRoute element={<LogOutComponent />} />
+                    } />
+                        <Route path="*" element={
+                            <AuthenticatedRoute element={<ErrorComponent />} />
+                    } />
                 </Routes>
             </BrowserRouter>
                 <FooterComponent />

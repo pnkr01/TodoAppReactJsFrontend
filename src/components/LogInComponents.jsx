@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import showErrorMessage from './ShowErrorMessageComponents';
-
+import { useAuth } from '../security/AuthContext';
 import showSucessMessage from './ShowSucessMessageComponents';
 
 function LogInComponent() {
@@ -14,6 +14,7 @@ function LogInComponent() {
     const [isError, setErrorMessage] = useState(false);
 
     const navigate = useNavigate();
+    const authContext = useAuth();
 
     const handleUsernameChange = (event) => {
         console.log(event.target.value);
@@ -23,24 +24,17 @@ function LogInComponent() {
 
     const handlePasswordChange = (event) => {
         console.log(event.target.value);
-        
         setPassword(event.target.value);
     }
 
     function handleSubmitButton() {
-        console.log('Submit button clicked');
-        console.log('Username : ', username);
-        console.log('Password : ', password);
-
-        if (username === 'admin' && password === 'admin') {
+        if (authContext.login(username, password)) {
             setSucessMessage(true);
             setErrorMessage(false);
-            console.log('Successful');
             navigate(`/welcome/${username}`);
         } else {
             setSucessMessage(false);
             setErrorMessage(true);
-            console.log('Failed');
         } 
     }
 
