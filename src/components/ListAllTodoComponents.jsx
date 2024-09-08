@@ -1,42 +1,32 @@
-
-
+import { useEffect, useState } from 'react';
+import { deleteTodoApi, retrieveTodosApi } from '../api/TodosApi';
+import { useAuth } from '../security/AuthContext';
 
 function ListAllTodosComponent() {
 
-    const todos = [
-        {
-            id: 1,
-            description: 'Learn React',
-            targetDate: '2021-09-10',
-            isCompleted: false,
-        },
-        {
-            id: 2,
-            description: 'Learn Spring Boot',
-            targetDate: '2021-09-10',
-            isCompleted: false,
-        },
-        {
-            id: 3,
-            description: 'Learn Angular',
-            targetDate: '2021-09-10',
-            isCompleted: false,
-        },
-        {
-            id: 4,
-            description: 'Learn Node JS',
-            targetDate: '2021-09-10',
-            isCompleted: false,
-        },
+    const [todos, setTodos] = useState([]);
+    const [message, setMessage] = useState(null);
+    
+    const authContext = useAuth();
 
-        {
-            id: 5,
-            description: 'Learn Java',
-            targetDate: '2021-09-10',
-            isCompleted: false,
-        }
+    const username = authContext.username;
 
-    ];
+    useEffect(()=> refreshTodos(),[]);
+
+    function refreshTodos() {
+        retrieveTodosApi(username).then(response => {
+            setTodos(response.data);
+        }); 
+    }
+
+    function onDeleteTodo(id) {
+        console.log('clicked delete button for id: ', id);
+        deleteTodoApi(username, id).then(response => { 
+            console.log('delete response: ', response);
+            setMessage(`Delete of todo ${id} successful`);
+            refreshTodos();
+        });
+    }
 
     return (
         <>
@@ -44,7 +34,7 @@ function ListAllTodosComponent() {
                 <h1 className='heading'>
                     List all Todos
                 </h1>
-                {/* add boarder in the table */}
+                {message && <div className='alert alert-success'>{message}</div>}
 
                 <table className='todoTable'>
                     <thead>
@@ -53,6 +43,7 @@ function ListAllTodosComponent() {
                             <th>Description</th>
                             <th>Target Date</th>
                             <th>Is Completed?</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,7 +53,8 @@ function ListAllTodosComponent() {
                                     <td>{todo.id}</td>
                                     <td>{todo.description}</td>
                                     <td>{todo.targetDate}</td>
-                                    <td>{todo.isCompleted.toString()}</td>
+                                    <td>{todo.done.toString()}</td>
+                                    <td><button className='btn btn-warning m-2' onClick={()=> onDeleteTodo(todo.id)}>Delete</button></td>
                                 </tr>
                             )
                         }
